@@ -11,7 +11,7 @@ void createHSVTrackbars() {
 	VideoCapture vCap(0);
 	Mat img, imgInHSV, imgColor, mask;
 	int hueMin = 0, saturationMin = 0, valueMin = 0;
-	int hueMax = 0, saturationMax = 0, valueMax = 0;
+	int hueMax = 179, saturationMax = 255, valueMax = 255;
 
 	string name = "Color Trackbars";
 	namedWindow(name, (300, 200));
@@ -30,7 +30,7 @@ void createHSVTrackbars() {
 		Scalar maxes(hueMax, saturationMax, valueMax);
 		inRange(imgInHSV, mins, maxes, mask);
 		cout << hueMin << "," << saturationMin << "," << valueMin << "," <<
-			hueMax << "," << saturationMax << "," << valueMax<<'\n';
+		hueMax << "," << saturationMax << "," << valueMax<<'\n';
 		imshow("IMG", img);
 		imshow("Mask", mask);
 		waitKey(30);
