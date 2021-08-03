@@ -29,8 +29,7 @@ void createHSVTrackbars() {
 		Scalar mins(hueMin, saturationMin, valueMin);
 		Scalar maxes(hueMax, saturationMax, valueMax);
 		inRange(imgInHSV, mins, maxes, mask);
-		cout << hueMin << "," << saturationMin << "," << valueMin << "," <<
-		hueMax << "," << saturationMax << "," << valueMax<<'\n';
+		cout << hueMin << "," << saturationMin << "," << valueMin << "," << hueMax << "," << saturationMax << "," << valueMax<<'\n';
 		imshow("IMG", img);
 		imshow("Mask", mask);
 		waitKey(30);
