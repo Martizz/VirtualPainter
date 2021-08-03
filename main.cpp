@@ -10,36 +10,36 @@ Mat img;
 VideoCapture vCap(0);
 vector<vector<int>> allPoints;
 
-vector<vector<int>> colorsToDetect{ {82,187,82,111,255,255}, //blue
-									{0,0,201,61,255,255} }; //pink
-vector<Scalar> colorsToDisplay{ {255, 0, 0}, //blue
-								{255, 182, 193} }; //pink
+vector<vector<int>> colorsToDetect{ {25,90,30,89,255,255}, //yellow
+									{118,74,0,179,255,183} }; //purple
+vector<Scalar> colorsToDisplay{ {0, 255, 200}, //yellow
+								{245, 0, 255} }; //purple
 
 Point contoursDetection(Mat inputImage) {
 	vector<vector<Point>> contours;
 	vector<Vec4i> order;
 
 	findContours(inputImage, contours, order, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
-	drawContours(img, contours, -1, Scalar(255, 0, 255), 2);
+	//drawContours(img, contours, -1, Scalar(255, 0, 255), 2);
 	int contoursSize = (int)contours.size();
 	vector<Rect> boundingBox(contoursSize);
 	vector<vector<Point>> contoursPolyline(contoursSize);
 	Point outputPoint(0,0);
 	for (int i = 0; i < contoursSize; i++) {
 		int area = contourArea(contours[i]);
-		cout << area << '\n';
+		//cout << area << '\n';
 		string objType;
 
-		if (area > 1000) {
+		if (area > 850) {
 			float peripherals = arcLength(contours[i], true);
 			approxPolyDP(contours[i], contoursPolyline[i], 0.02 * peripherals, true);
-			cout << contoursPolyline[i].size() << '\n';
+			//cout << contoursPolyline[i].size() << '\n';
 			boundingBox[i] = boundingRect(contoursPolyline[i]);
 
 			outputPoint.x = boundingBox[i].x + boundingBox[i].width / 2;
 			outputPoint.y = boundingBox[i].y; 
-			drawContours(img, contoursPolyline, i, Scalar(255, 0, 255), 2);
-			rectangle(img, boundingBox[i].tl(), boundingBox[i].br(), Scalar(0, 255, 0), 5);
+			//drawContours(img, contoursPolyline, i, Scalar(255, 0, 255), 2);
+			//rectangle(img, boundingBox[i].tl(), boundingBox[i].br(), Scalar(0, 255, 0), 5);
 		}
 
 	}
@@ -68,15 +68,13 @@ vector<vector<int>> colorDetection(Mat inputImage) {
 void drawPolylines(vector<vector<int>> allPoints, vector<Scalar> colorsToDisplay) {
 	int pointsLength = (int)allPoints.size();
 	for (int i = 0; i < pointsLength; i++) {
-		circle(img, Point(allPoints[i][0], allPoints[i][1]), 10, colorsToDisplay[allPoints[i][2]], FILLED);
+		circle(img, Point(allPoints[i][0], allPoints[i][1]), 7, colorsToDisplay[allPoints[i][2]], FILLED);
 	}
-	cout << "Points length: " << pointsLength;
-	
 }
 
 
 int main() {
-	//createHSVTrackbars();
+	//createHSVTrackbars(); /* uncomment this line to do color calibration */
 	if (!vCap.isOpened()) return -1;
 	
 	while(1) {
